@@ -1,0 +1,24 @@
+{
+  "name": "frizz-forecast",
+  "version": "1.0.0",
+  "description": "Alexa skill for those with curly hair",
+  "main": "index.js",
+  "dependencies": {
+    "bespoken-tools": "^1.0.5",
+    "request": "^2.81.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GitBoHub/frizz-forecast.git"
+  },
+  "author": "Bo and Pier",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GitBoHub/frizz-forecast/issues"
+  },
+  "homepage": "https://github.com/GitBoHub/frizz-forecast#readme"
+}
