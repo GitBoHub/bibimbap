@@ -6,9 +6,9 @@ var request = require('request');
 
 const frizzFactorArray = [
     {
-        defaultResponse: "Dry, with a chance of straight hair",
+        defaultResponse: "Dry, with a chance of flat hair",
         response: [
-            "Straight hair don’t care.",
+            "Straight hair don’t care. Have a great hair day!",
             "Hot dog! Go on, warm up that hair straightener.",
             "And a high chance of static electricity.",
             "Whip your straight hair back and forth.",
@@ -21,22 +21,24 @@ const frizzFactorArray = [
         defaultResponse: "Low, with a small chance of frizzle",
         response: [
             "Hey girl, your hair is hardly frizzy at all today.",
-            "Challenge accepted, frizz forecast.",
+            "Challenge accepted, mother nature.",
             "Don’t cry over frizzy hair.",
-            "Don't worry. Frizz is temporary."
+            "Don't worry. Frizz is temporary.",
+            "Now watch me snip. Watch me spray spray.",
+            "Wake up and smell the hairspray."
         ],
         level: 30,
     },
     {
         defaultResponse: "Partly frizzy",
         response: [
-            "With enough hairspray, I think you’ll avoid a frizz-aster.",
+            "With enough hairspray, you’ll avoid a frizz-aster.",
             "To curl or not to curl. That is the question.",
             "The hair tie: Never leave home without it.",
-            "Ermahgerd, what’s your hair going to do today?",
             "First world frizz problems.",
             "Make waves. Literally, make hair waves.",
-            "Challenge accepted, mother nature."
+            "I like to groom it groom it.",
+            "I got 99 bobby pins, but I can't find one."
         ],
         level: 40,
     },
@@ -46,10 +48,9 @@ const frizzFactorArray = [
             "Go on, let your hair down. Today is perfect for curls. Yassss.",
             "Who run the world? Curls. Go ahead, get your curl on today.",
             "Awwwww yeah. Curly hair. Don’t care.",
-            "Life is short. Let your curls out today.",
-            "Love is in the hair. Today brings prime curls conditions.",
+            "Love is in the hair. Today brings prime curl conditions.",
             "Curlies have more fun. Now, go out there and prove it.",
-            "Big hair don’t care. I’m Amazon Alexa and I support this message.",
+            "Big hair don’t care. I’m Alexa and I support this message.",
             "Footloose and frizz free."
         ],
         level: 60,
@@ -63,10 +64,12 @@ const frizzFactorArray = [
             "There's a 100 percent chance of a ponytail.",
             "I see a ponytail in your future.",
             "Take the necessary precautions, and go for a classic bun.",
-            "How are you with updos?",
             "Let it fro. Let it fro. Let it fro.",
             "All’s fair in love and frizz.",
-            "This frizz shall pass."
+            "This frizz shall pass.",
+            "You know what they say. Messy bun and getting stuff done.",
+            "Frizz happens.",
+            "Your heart will frizz on."
         ],
         level: 61,
     }
