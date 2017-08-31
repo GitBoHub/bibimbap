@@ -6,7 +6,7 @@ var request = require('request');
 
 const frizzFactorArray = [
     {
-        defaultResponse: "Dry, with a chance of flat hair.",
+        defaultResponse: "Dry, with a chance of flat hair,",
         response: [
             "Straight hair don’t care. Have a great hair day!",
             "<prosody pitch='high' volume='x-loud'>Hot dog! Go on, warm up that hair straightener.</prosody>",
@@ -18,7 +18,7 @@ const frizzFactorArray = [
         level: 15,
     },
     {
-        defaultResponse: "Low, with a small chance of frizzle.",
+        defaultResponse: "Low, with a small chance of frizzle,",
         response: [
             "<prosody rate='x-slow' volume='medium' pitch='x-low'>Hey girl,</prosody><prosody rate='medium' pitch='x-low'>your hair is hardly frizzy at all today. </prosody>",
             "Challenge accepted, mother nature.",
@@ -30,7 +30,7 @@ const frizzFactorArray = [
         level: 30,
     },
     {
-        defaultResponse: "Partly frizzy.",
+        defaultResponse: "Partly frizzy,",
         response: [
             "With enough hairspray, you’ll avoid a frizz-aster.<audio src='https://s3.amazonaws.com/sounds226/boom.mp3'/>",
             "<emphasis level=‘strong’>To kerl.</emphasis> or not to <emphasis level=‘strong’>kerl.</emphasis> That is the question.",
@@ -43,7 +43,7 @@ const frizzFactorArray = [
         level: 40,
     },
     {
-        defaultResponse: "Clear for curls.",
+        defaultResponse: "Clear for curls,",
         response: [
             "Go on, let your hair down. Today is perfect for curls. Yassss.",
             "Who run the world? Curls. Go ahead, get your curl on today.",
@@ -56,7 +56,7 @@ const frizzFactorArray = [
         level: 60,
     },
     {
-        defaultResponse: "Severe frizz warning.",
+        defaultResponse: "Severe frizz warning,",
         response: [
             "<prosody rate='slow' volume='x-loud'>Sorry, I can’t hear you over the volume of your hair.</prosody>",
             "Is your hair big today? <amazon:effect name='whispered'>because it’s full of secrets</amazon:effect>",
