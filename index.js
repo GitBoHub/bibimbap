@@ -4,18 +4,19 @@
 var request = require('request');
 
 
-const frizzFactorArray = [{
-    defaultResponse: "Dry, with a chance of straight hair",
-    response: [
-        "Straight hair don’t care.",
-        "Hot dog! Go on, warm up that hair straightener.",
-        "And a high chance of static electricity.",
-        "Whip your straight hair back and forth.",
-        "One does not simply straighten their hair every day. Only on days like today.",
-        "I don’t always have straight hair, but when I do I check with Frizz Forecast."
-    ],
-    level: 15,
-},
+const frizzFactorArray = [
+    {
+        defaultResponse: "Dry, with a chance of straight hair",
+        response: [
+            "Straight hair don’t care.",
+            "Hot dog! Go on, warm up that hair straightener.",
+            "And a high chance of static electricity.",
+            "Whip your straight hair back and forth.",
+            "One does not simply straighten their hair every day. Only on days like today.",
+            "I don’t always have straight hair, but when I do I check with Frizz Forecast."
+        ],
+        level: 15,
+    },
     {
         defaultResponse: "Low, with a small chance of frizzle",
         response: [
@@ -156,7 +157,8 @@ FrizzForecast.prototype.getWeatherForecast = function (deviceId, consentToken) {
         request(url, function (wuError, wuResponse, wuBody) {
             const parsed = JSON.parse(wuBody);
             const dewpoint = parsed.current_observation && parsed.current_observation.dewpoint_f;
-            for (i = 0; frizzFactorArray.length; i++) {
+            for (i = 0; i < frizzFactorArray.length; i++) {
+                console.log(i);
                 if (frizzFactorArray[i].level > dewpoint) {
                     userFactor = frizzFactorArray[i];
                     break;
@@ -164,7 +166,8 @@ FrizzForecast.prototype.getWeatherForecast = function (deviceId, consentToken) {
                     userFactor = frizzFactorArray[i];
                 }
             }
-            const finalMessage = "Your frizz forecast for today is " + userFactor.defaultResponse + ", " + getRandomQuote(userFactor) + " the Temperature";
+            const finalMessage = "Your frizz forecast for today is " + userFactor.defaultResponse + ", <prosody pitch='high'>" + getRandomQuote(userFactor) + "</prosody>";
+            const temperature = " today temperature is " + parsed.current_observation.temp_f + ", the weather will be " + parsed.current_observation.weather;
             console.log(finalMessage);
             var response = {
                 version: "1.0",
@@ -172,7 +175,7 @@ FrizzForecast.prototype.getWeatherForecast = function (deviceId, consentToken) {
                     shouldEndSession: true,
                     outputSpeech: {
                         type: "SSML",
-                        ssml: "<speak>" + finalMessage + "</speak>"
+                        ssml: "<speak>" + finalMessage + temperature + "</speak>"
                     }
                 }
             };
