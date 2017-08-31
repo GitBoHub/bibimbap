@@ -6,10 +6,10 @@ var request = require('request');
 
 const frizzFactorArray = [
     {
-        defaultResponse: "Dry, with a chance of flat hair",
+        defaultResponse: "Dry, with a chance of flat hair.",
         response: [
             "Straight hair don’t care. Have a great hair day!",
-            "Hot dog! Go on, warm up that hair straightener.",
+            "<prosody pitch='high' volume='x-loud'>Hot dog! Go on, warm up that hair straightener.</prosody>",
             "And a high chance of static electricity.",
             "Whip your straight hair back and forth.",
             "One does not simply straighten their hair every day. Only on days like today.",
@@ -18,22 +18,22 @@ const frizzFactorArray = [
         level: 15,
     },
     {
-        defaultResponse: "Low, with a small chance of frizzle",
+        defaultResponse: "Low, with a small chance of frizzle.",
         response: [
-            "Hey girl, your hair is hardly frizzy at all today.",
+            "<prosody rate='x-slow' volume='medium' pitch='x-low'>Hey girl,</prosody><prosody rate='medium' pitch='x-low'>your hair is hardly frizzy at all today. </prosody>",
             "Challenge accepted, mother nature.",
             "Don’t cry over frizzy hair.",
             "Don't worry. Frizz is temporary.",
-            "Now watch me snip. Watch me spray spray.",
+            "<prosody rate='medium' pitch='x-high'>Now watch me snip. Watch me,</prosody><prosody rate='x-fast' pitch='x-high'>spray spray.</prosody>",
             "Wake up and smell the hairspray."
         ],
         level: 30,
     },
     {
-        defaultResponse: "Partly frizzy",
+        defaultResponse: "Partly frizzy.",
         response: [
-            "With enough hairspray, you’ll avoid a frizz-aster.",
-            "To curl or not to curl. That is the question.",
+            "With enough hairspray, you’ll avoid a frizz-aster.<audio src='https://s3.amazonaws.com/sounds226/boom.mp3'/>",
+            "<emphasis level=‘strong’>To kerl.</emphasis> or not to <emphasis level=‘strong’>kerl.</emphasis> That is the question.",
             "The hair tie: Never leave home without it.",
             "First world frizz problems.",
             "Make waves. Literally, make hair waves.",
@@ -43,23 +43,23 @@ const frizzFactorArray = [
         level: 40,
     },
     {
-        defaultResponse: "Clear for curls",
+        defaultResponse: "Clear for curls.",
         response: [
             "Go on, let your hair down. Today is perfect for curls. Yassss.",
             "Who run the world? Curls. Go ahead, get your curl on today.",
             "Awwwww yeah. Curly hair. Don’t care.",
             "Love is in the hair. Today brings prime curl conditions.",
             "Curlies have more fun. Now, go out there and prove it.",
-            "Big hair don’t care. I’m Alexa and I support this message.",
+            "Big hair don’t care.<amazon:effect name='whispered'> I’m Alexa and I approve this message.</amazon:effect>",
             "Footloose and frizz free."
         ],
         level: 60,
     },
     {
-        defaultResponse: "Severe frizz warning",
+        defaultResponse: "Severe frizz warning.",
         response: [
-            "Sorry, I can’t hear you over the volume of your hair.",
-            "Is your hair big today because it’s full of secrets?",
+            "<prosody rate='slow' volume='x-loud'>Sorry, I can’t hear you over the volume of your hair.</prosody>",
+            "Is your hair big today? <amazon:effect name='whispered'>because it’s full of secrets</amazon:effect>",
             "Can I call you Miss Frizzle?",
             "There's a 100 percent chance of a ponytail.",
             "I see a ponytail in your future.",
@@ -68,7 +68,7 @@ const frizzFactorArray = [
             "All’s fair in love and frizz.",
             "This frizz shall pass.",
             "You know what they say. Messy bun and getting stuff done.",
-            "Frizz happens.",
+            "<say-as interpret-as='expletive'>shit</say-as>happens, and so does frizzy hair.",
             "Your heart will frizz on."
         ],
         level: 61,
@@ -169,7 +169,7 @@ FrizzForecast.prototype.getWeatherForecast = function (deviceId, consentToken) {
                     userFactor = frizzFactorArray[i];
                 }
             }
-            const finalMessage = "Your frizz forecast for today is " + userFactor.defaultResponse + ", <prosody pitch='high'>" + getRandomQuote(userFactor) + "</prosody>";
+            const finalMessage = "Your frizz forecast for today is, " + userFactor.defaultResponse + getRandomQuote(userFactor);
             const temperature = " today temperature is " + parsed.current_observation.temp_f + ", the weather will be " + parsed.current_observation.weather;
             console.log(finalMessage);
             var response = {
