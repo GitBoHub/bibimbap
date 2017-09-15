@@ -45,9 +45,9 @@ const frizzFactorArray = [
     {
         defaultResponse: "Clear for curls,",
         response: [
-            "Go on, let your hair down. Today is perfect for curls. Yassss.",
+            "Go on, let your hair down. Today is perfect for curls. Yaaaaaasss.",
             "Who run the world? Curls. Go ahead, get your curl on today.",
-            "Awwwww yeah. Curly hair. Don’t care.",
+            "Awwwwwww yeah. Curly hair. Don’t care.",
             "Love is in the hair. Today brings prime curl conditions.",
             "Curlies have more fun. Now, go out there and prove it.",
             "Big hair don’t care.<amazon:effect name='whispered'> I’m Alexa and I approve this message.</amazon:effect>",
