@@ -181,13 +181,13 @@ FrizzForecast.prototype.getWeatherForecast = function (deviceId, consentToken) {
         let userFactor;
         request(url, function (wuError, wuResponse, wuBody) {
             request(forecast, function (foreError, foreResponse, foreBody) {
+                const conditionsParsed = JSON.parse(wuBody);
+                const forecastParsed = JSON.parse(foreBody);
                 console.log("##################################");
                 const utcSeconds = conditionsParsed.current_observation && conditionsParsed.current_observation.observation_epoch;
                 var d = new Date(0); // The 0 there is the key, which sets the date to the epoch
                 d.setUTCSeconds(utcSeconds);
                 console.log(d.toDateString());
-                const conditionsParsed = JSON.parse(wuBody);
-                const forecastParsed = JSON.parse(foreBody);
                 const dewpoint = conditionsParsed.current_observation && conditionsParsed.current_observation.dewpoint_f;
                 const location = conditionsParsed.current_observation.display_location.city;
                 const currentTemp = conditionsParsed.current_observation.temp_f;
