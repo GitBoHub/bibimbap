@@ -15,7 +15,7 @@ const frizzFactorArray = [
             "One does not simply straighten their hair every day. Only on days like today.",
             "I don’t always have straight hair, but when I do I check with Frizz Forecast."
         ],
-        level: 15,
+        level: 50,
     },
     {
         defaultResponse: "Low, with a small chance of frizzle,",
@@ -27,7 +27,7 @@ const frizzFactorArray = [
             "<prosody rate='medium' pitch='x-high'>Now watch me snip. Watch me,</prosody><prosody rate='x-fast' pitch='x-high'>spray spray.</prosody>",
             "Wake up and smell the hairspray."
         ],
-        level: 30,
+        level: 54,
     },
     {
         defaultResponse: "Partly frizzy,",
@@ -40,7 +40,7 @@ const frizzFactorArray = [
             "I like to groom it groom it.",
             "I got 99 bobby pins, but I can't find one."
         ],
-        level: 40,
+        level: 59,
     },
     {
         defaultResponse: "Clear for curls,",
@@ -53,7 +53,7 @@ const frizzFactorArray = [
             "Big hair don’t care.<amazon:effect name='whispered'> I’m Alexa and I approve this message.</amazon:effect>",
             "Footloose and frizz free."
         ],
-        level: 60,
+        level: 64,
     },
     {
         defaultResponse: "Severe frizz warning,",
@@ -71,7 +71,7 @@ const frizzFactorArray = [
             "<say-as interpret-as='expletive'>shit</say-as>happens, and so does frizzy hair.",
             "Your heart will frizz on."
         ],
-        level: 61,
+        level: 65,
     }
 ];
 
