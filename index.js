@@ -183,22 +183,20 @@ FrizzForecast.prototype.getWeatherForecast = function (deviceId, consentToken) {
             request(forecast, function (foreError, foreResponse, foreBody) {
                 const conditionsParsed = JSON.parse(wuBody);
                 const forecastParsed = JSON.parse(foreBody);
-                console.log("##################################");
                 const utcSeconds = conditionsParsed.current_observation && conditionsParsed.current_observation.observation_epoch;
-                var d = new Date(0); // The 0 there is the key, which sets the date to the epoch
-                d.setUTCSeconds(utcSeconds);
-                console.log(d.toDateString());
+                var date = new Date(0); // The 0 there is the key, which sets the date to the epoch
+                date.setUTCSeconds(utcSeconds);
                 const dewpoint = conditionsParsed.current_observation && conditionsParsed.current_observation.dewpoint_f;
                 const location = conditionsParsed.current_observation.display_location.city;
-                const currentTemp = conditionsParsed.current_observation.temp_f;
+                const currentTemp = Math.round(conditionsParsed.current_observation.temp_f);
                 const currentCond = conditionsParsed.current_observation.weather + ' skies';
                 const firstResponseValues = {location, currentTemp, currentCond};
                 const secondResponseValues = {
                     forecastCond: forecastParsed.forecast.simpleforecast.forecastday[0].conditions + " skies",
                 };
                 const thirdResponseValues = {
-                    forecastHigh: forecastParsed.forecast.simpleforecast.forecastday[0].high.fahrenheit,
-                    forecastLow: forecastParsed.forecast.simpleforecast.forecastday[0].low.fahrenheit,
+                    forecastHigh: Math.round(forecastParsed.forecast.simpleforecast.forecastday[0].high.fahrenheit),
+                    forecastLow: Math.round(forecastParsed.forecast.simpleforecast.forecastday[0].low.fahrenheit),
                 };
                 for (i = 0; i < frizzFactorArray.length; i++) {
                     if (frizzFactorArray[i].level > dewpoint) {
@@ -208,8 +206,6 @@ FrizzForecast.prototype.getWeatherForecast = function (deviceId, consentToken) {
                         userFactor = frizzFactorArray[i];
                     }
                 }
-                // console.log('forecastParsed', forecastParsed.forecast.simpleforecast.forecastday[0]);
-                console.log(location, currentTemp, currentCond);
                 const finalMessage = "Your frizz forecast for today is, " + userFactor.defaultResponse + " " + getRandomStringFromArray(userFactor) + " ";
                 const condMessage = getRandomStringFromArray(firstTempResponse).replace(/location|currentTemp|currentCond/gi, match => {
                     return firstResponseValues[match];
@@ -217,7 +213,7 @@ FrizzForecast.prototype.getWeatherForecast = function (deviceId, consentToken) {
                 const forecastCondMessage = getRandomStringFromArray(secondTempResponse).replace(/forecastCond/gi, function (match) {
                     return secondResponseValues[match];
                 });
-                const forecastTempMessage = getRandomStringFromArray(thirdTempResponse).replace(/forecastHigh|forecastLow/gi, function (match) {
+                const forecastTempMessage = thirdTempResponse[date.getHours() > 15 ? 1 : 0].replace(/forecastHigh|forecastLow/gi, function (match) {
                     return thirdResponseValues[match];
                 });
                 var response = {
