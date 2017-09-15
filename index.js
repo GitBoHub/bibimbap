@@ -178,10 +178,14 @@ FrizzForecast.prototype.getWeatherForecast = function (deviceId, consentToken) {
         const zipCode = body.postalCode ? body.postalCode : "98121";
         const url = 'http://api.wunderground.com/api/4a9c079f1cdb5b80/conditions/q/' + country + '/' + zipCode + '.json';
         const forecast = 'http://api.wunderground.com/api/4a9c079f1cdb5b80/forecast/q/' + country + '/' + zipCode + '.json';
-        console.log(url, forecast);
         let userFactor;
         request(url, function (wuError, wuResponse, wuBody) {
             request(forecast, function (foreError, foreResponse, foreBody) {
+                console.log("##################################");
+                const utcSeconds = conditionsParsed.current_observation && conditionsParsed.current_observation.observation_epoch;
+                var d = new Date(0); // The 0 there is the key, which sets the date to the epoch
+                d.setUTCSeconds(utcSeconds);
+                console.log(d.toDateString());
                 const conditionsParsed = JSON.parse(wuBody);
                 const forecastParsed = JSON.parse(foreBody);
                 const dewpoint = conditionsParsed.current_observation && conditionsParsed.current_observation.dewpoint_f;
