@@ -75,6 +75,28 @@ const frizzFactorArray = [
     }
 ];
 
+const firstTempResponse = [
+    "In location, it’s currentTemp degrees with currentCond.",
+    "Today in location, it’s currentTemp degrees with currentCond.",
+    "Right now in location, it’s currentTemp degrees with currentCond.",
+    "Currently, in location it’s currentTemp degrees with currentCond.",
+];
+
+const secondTempResponse = [
+    "Today, you can look for forecastCond,",
+    "Tonight’s forecast has forecastCond,",
+    "Today, you can expect forecastCond,",
+];
+
+const thirdTempResponse = [
+    "with a high of forecastHigh degrees and a low of forecastLow degrees,",
+    "with a low of forecastLow degrees.",
+];
+
+const warningResponse = [
+    "In {0} there’s a {1} in effect {dayS} {dateS} {timeS} to {dayF} {dateF} {timeF}."
+]
+
 exports.handler = function (event, context) {
     var player = new FrizzForecast(event, context);
     player.handle();
@@ -88,7 +110,6 @@ var FrizzForecast = function (event, context) {
 // Handles an incoming Alexa request
 FrizzForecast.prototype.handle = function () {
     var requestType = this.event.request.type;
-    // var userId = this.event.context ? this.event.context.System.user.userId : this.event.session.user.userId;
 
     if (requestType === "LaunchRequest") {
         this.say("Hello there this is your frizz forecast, ask me if you will have a good hair day!", "You can say what is my frizz forecast?");
@@ -156,37 +177,61 @@ FrizzForecast.prototype.getWeatherForecast = function (deviceId, consentToken) {
         const country = body.countryCode || "CA";
         const zipCode = body.postalCode || "94016";
         const url = 'http://api.wunderground.com/api/4a9c079f1cdb5b80/conditions/q/' + country + '/' + zipCode + '.json';
+        const forecast = 'http://api.wunderground.com/api/4a9c079f1cdb5b80/forecast/q/' + country + '/' + zipCode + '.json';
         let userFactor;
         request(url, function (wuError, wuResponse, wuBody) {
-            const parsed = JSON.parse(wuBody);
-            const dewpoint = parsed.current_observation && parsed.current_observation.dewpoint_f;
-            for (i = 0; i < frizzFactorArray.length; i++) {
-                console.log(i);
-                if (frizzFactorArray[i].level > dewpoint) {
-                    userFactor = frizzFactorArray[i];
-                    break;
-                } else if (i === 4) {
-                    userFactor = frizzFactorArray[i];
-                }
-            }
-            const finalMessage = "Your frizz forecast for today is, " + userFactor.defaultResponse + getRandomQuote(userFactor);
-            const temperature = " today temperature is " + parsed.current_observation.temp_f + ", the weather will be " + parsed.current_observation.weather;
-            console.log(finalMessage);
-            var response = {
-                version: "1.0",
-                response: {
-                    shouldEndSession: true,
-                    outputSpeech: {
-                        type: "SSML",
-                        ssml: "<speak>" + finalMessage + temperature + "</speak>"
+            request(forecast, function (foreError, foreResponse, foreBody) {
+                const conditionsParsed = JSON.parse(wuBody);
+                const forecastParsed = JSON.parse(foreBody);
+                const dewpoint = conditionsParsed.current_observation && conditionsParsed.current_observation.dewpoint_f;
+                const location = conditionsParsed.current_observation.display_location.city;
+                const currentTemp = conditionsParsed.current_observation.temp_f;
+                const currentCond = conditionsParsed.current_observation.weather + ' skies';
+                const firstResponseValues = {location, currentTemp, currentCond};
+                const secondResponseValues = {
+                    forecastCond: forecastParsed.forecast.simpleforecast.forecastday[0].conditions + " skies",
+                };
+                const thirdResponseValues = {
+                    forecastHigh: forecastParsed.forecast.simpleforecast.forecastday[0].high.fahrenheit,
+                    forecastLow: forecastParsed.forecast.simpleforecast.forecastday[0].low.fahrenheit,
+                };
+                for (i = 0; i < frizzFactorArray.length; i++) {
+                    if (frizzFactorArray[i].level > dewpoint) {
+                        userFactor = frizzFactorArray[i];
+                        break;
+                    } else if (i === 4) {
+                        userFactor = frizzFactorArray[i];
                     }
                 }
-            };
-            currentContext.succeed(response);
+                // console.log('forecastParsed', forecastParsed.forecast.simpleforecast.forecastday[0]);
+                console.log(location, currentTemp, currentCond);
+                const finalMessage = "Your frizz forecast for today is, " + userFactor.defaultResponse + " " + getRandomStringFromArray(userFactor) + " ";
+                const condMessage = getRandomStringFromArray(firstTempResponse).replace(/location|currentTemp|currentCond/gi, match => {
+                    return firstResponseValues[match];
+                });
+                const forecastCondMessage = getRandomStringFromArray(secondTempResponse).replace(/forecastCond/gi, function (match) {
+                    return secondResponseValues[match];
+                });
+                const forecastTempMessage = getRandomStringFromArray(thirdTempResponse).replace(/forecastHigh|forecastLow/gi, function (match) {
+                    return thirdResponseValues[match];
+                });
+                var response = {
+                    version: "1.0",
+                    response: {
+                        shouldEndSession: true,
+                        outputSpeech: {
+                            type: "SSML",
+                            ssml: "<speak>" + finalMessage + condMessage + " " + forecastCondMessage + " " + forecastTempMessage + "</speak>"
+                        }
+                    }
+                };
+                currentContext.succeed(response);
+            });
         });
     });
 };
 
-function getRandomQuote(userFactor) {
-    return userFactor.response[Math.floor(Math.random() * userFactor.response.length)];
+function getRandomStringFromArray(array) {
+    if (array.response) return array.response[Math.floor(Math.random() * array.response.length)];
+    return array[Math.floor(Math.random() * array.length)];
 }
