@@ -174,6 +174,9 @@ FrizzForecast.prototype.getWeatherForecast = function (deviceId, consentToken) {
             'bearer': consentToken
         }
     }, function (error, response, body) {
+        console.log(body);
+        console.log("##################################");
+        console.log(response);
         const country = body.countryCode || "CA";
         const zipCode = body.postalCode || "94016";
         const url = 'http://api.wunderground.com/api/4a9c079f1cdb5b80/conditions/q/' + country + '/' + zipCode + '.json';
