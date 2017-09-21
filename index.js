@@ -8,7 +8,7 @@ const frizzFactorArray = [
     {
         defaultResponse: "Dry, with a chance of flat hair,",
         response: [
-            "Straight hair don’t care. Have a great hair day!",
+            "Straight hair. Don’t care. Have a great hair day!",
             "<prosody pitch='high' volume='x-loud'>Hot dog! Go on, warm up that hair straightener.</prosody>",
             "And a high chance of static electricity.",
             "Whip your straight hair back and forth.",
@@ -21,7 +21,7 @@ const frizzFactorArray = [
         defaultResponse: "Low, with a small chance of frizzle,",
         response: [
             "<prosody rate='x-slow' volume='medium' pitch='x-low'>Hey girl,</prosody><prosody rate='medium' pitch='x-low'>your hair is hardly frizzy at all today. </prosody>",
-            "Challenge accepted, mother nature.",
+            "Challenge accepted.",
             "Don’t cry over frizzy hair.",
             "Don't worry. Frizz is temporary.",
             "<prosody rate='medium' pitch='x-high'>Now watch me snip. Watch me,</prosody><prosody rate='x-fast' pitch='x-high'>spray spray.</prosody>",
