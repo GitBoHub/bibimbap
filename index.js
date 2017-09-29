@@ -98,8 +98,8 @@ const warningResponse = [
 ]
 
 exports.handler = function (event, context) {
-    var player = new FrizzForecast(event, context);
-    player.handle();
+    var frizzForecastApp = new FrizzForecast(event, context);
+    frizzForecastApp.handle();
 };
 
 var FrizzForecast = function (event, context) {
@@ -112,7 +112,7 @@ FrizzForecast.prototype.handle = function () {
     var requestType = this.event.request.type;
 
     if (requestType === "LaunchRequest") {
-        this.say("Hello there this is your frizz forecast, ask me if you will have a good hair day!", "You can say what is my frizz forecast?");
+        this.say("Hello there this is your frizz forecast, ask me if you will have a good hair day!", "You can say: what is my frizz forecast?", false);
     } else if (requestType === "IntentRequest") {
         var intent = this.event.request.intent;
         if (intent.name === "frizzForecast") {
@@ -123,10 +123,12 @@ FrizzForecast.prototype.handle = function () {
                 this.event.context.System.device && this.event.context.System.device.deviceId :
                 "";
             this.getWeatherForecast(deviceId, consentToken);
-        } else if (intent.name === "AMAZON.PauseIntent") {
-
-        } else if (intent.name === "AMAZON.ResumeIntent") {
-
+        } else if (intent.name === "AMAZON.CancelIntent") {
+            this.say("ok, good bye!", undefined, true);
+        } else if (intent.name === "AMAZON.StopIntent") {
+            this.say("ok, good bye!", undefined, true);
+        } else if (intent.name === "AMAZON.HelpIntent") {
+            this.say("You can say: what is my frizz forecast?", undefined, false);
         }
     }
 };
@@ -136,11 +138,11 @@ FrizzForecast.prototype.handle = function () {
  * @param message
  * @param repromptMessage
  */
-FrizzForecast.prototype.say = function (message, repromptMessage) {
+FrizzForecast.prototype.say = function (message, repromptMessage, shouldEnd) {
     var response = {
         version: "1.0",
         response: {
-            shouldEndSession: false,
+            shouldEndSession: shouldEnd,
             card: {
                 "type": "AskForPermissionsConsent",
                 "permissions": [
@@ -151,12 +153,12 @@ FrizzForecast.prototype.say = function (message, repromptMessage) {
                 type: "SSML",
                 ssml: "<speak> " + message + " </speak>"
             },
-            reprompt: {
+            reprompt: repromptMessage ? {
                 outputSpeech: {
                     type: "SSML",
                     ssml: "<speak> " + repromptMessage + " </speak>"
                 }
-            }
+            } : undefined,
         }
     };
     this.context.succeed(response);
