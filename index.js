@@ -109,20 +109,19 @@ var FrizzForecast = function (event, context) {
 
 // Handles an incoming Alexa request
 FrizzForecast.prototype.handle = function () {
-    var requestType = this.event.request.type;
-
+    const requestType = this.event.request.type;
+    const consentToken = this.event.context ?
+        this.event.context.System.user.permissions && this.event.context.System.user.permissions.consentToken :
+        this.event.session.user.permissions && this.event.session.user.permissions.consentToken;
+    const deviceId = this.event.context ?
+        this.event.context.System.device && this.event.context.System.device.deviceId :
+        "";
     if (requestType === "LaunchRequest") {
-        this.say("Hello there this is your frizz forecast, ask me if you will have a good hair day!", "You can say: what is my frizz forecast?", false);
+        this.say("Hello there this is your frizz forecast, ask me if you will have a good hair day!", "You can say: what is my frizz forecast?", false, consentToken);
     } else if (requestType === "IntentRequest") {
-        var intent = this.event.request.intent;
-        if (intent.name === "frizzForecast") {
-            const consentToken = this.event.context ?
-                this.event.context.System.user.permissions && this.event.context.System.user.permissions.consentToken :
-                this.event.session.user.permissions && this.event.session.user.permissions.consentToken;
-            const deviceId = this.event.context ?
-                this.event.context.System.device && this.event.context.System.device.deviceId :
-                "";
-            this.getWeatherForecast(deviceId, consentToken);
+        const intent = this.event.request.intent;
+        if (intent.name === "frizzForecast") {  
+            this.getWeatherForecast(deviceId, consentToken, consentToken);
         } else if (intent.name === "AMAZON.CancelIntent") {
             this.say("ok, good bye!", undefined, true);
         } else if (intent.name === "AMAZON.StopIntent") {
@@ -138,12 +137,12 @@ FrizzForecast.prototype.handle = function () {
  * @param message
  * @param repromptMessage
  */
-FrizzForecast.prototype.say = function (message, repromptMessage, shouldEnd) {
+FrizzForecast.prototype.say = function (message, repromptMessage, shouldEnd, consentToken) {
     var response = {
         version: "1.0",
         response: {
             shouldEndSession: shouldEnd,
-            card: {
+            card: consentToken ? undefined : {
                 "type": "AskForPermissionsConsent",
                 "permissions": [
                     "read::alexa:device:all:address:country_and_postal_code"
