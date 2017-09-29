@@ -116,6 +116,9 @@ FrizzForecast.prototype.handle = function () {
     const deviceId = this.event.context ?
         this.event.context.System.device && this.event.context.System.device.deviceId :
         "";
+    if (this.event.session.application.applicationId !== "amzn1.ask.skill.273e5e26-7a84-4c2c-b8b7-b85c90478a66") {
+        this.context.fail("Error 403.10 invalid application id");
+    }
     if (requestType === "LaunchRequest") {
         this.say("Hello there this is your frizz forecast, ask me if you will have a good hair day!", "You can say: what is my frizz forecast?", false, consentToken);
     } else if (requestType === "IntentRequest") {
