@@ -2,6 +2,8 @@
  * Created by reycastaneda on 8/29/17.
  */
 var request = require('request');
+var VoiceLabs = require("voicelabs")('fe8b6310-ad0c-11a7-193f-02f814b60257');
+
 
 
 const frizzFactorArray = [
@@ -120,12 +122,16 @@ FrizzForecast.prototype.handle = function () {
         const error = new Error('Invalid ApplicationId: ' + this.event.session.application.applicationId);
         this.context.fail(error);
     }
+    const skillBotLocation = this.event.request && this.event.request.skillbot;
     if (requestType === "LaunchRequest") {
         this.say("Hello there this is your frizz forecast, ask me if you will have a good hair day!", "You can say: what is my frizz forecast?", false, consentToken);
     } else if (requestType === "IntentRequest") {
         const intent = this.event.request.intent;
-        if (intent.name === "frizzForecast") {  
-            this.getWeatherForecast(deviceId, consentToken, consentToken);
+        if (intent.name === "frizzForecast") {
+            const thisHandle = this;
+            VoiceLabs.track(this.event.session, intent.name, intent.slots, "frizz forecast", function (error, response) {
+                 thisHandle.getWeatherForecast(deviceId, consentToken, skillBotLocation);
+            });
         } else if (intent.name === "AMAZON.CancelIntent") {
             this.say("ok, good bye!", undefined, true);
         } else if (intent.name === "AMAZON.StopIntent") {
@@ -172,15 +178,15 @@ FrizzForecast.prototype.say = function (message, repromptMessage, shouldEnd, con
  * @param deviceId
  * @param consentToken
  */
-FrizzForecast.prototype.getWeatherForecast = function (deviceId, consentToken) {
+FrizzForecast.prototype.getWeatherForecast = function (deviceId, consentToken, skillbotLocation) {
     const currentContext = this.context;
     request.get('https://api.amazonalexa.com/v1/devices/' + deviceId + '/settings/address/countryAndPostalCode', {
         'auth': {
             'bearer': consentToken
         }
     }, function (error, response, body) {
-        const country = body.countryCode ? body.countryCode : "US";
-        const zipCode = body.postalCode ? body.postalCode : "98121";
+        const country = body.countryCode ? body.countryCode : skillbotLocation ? skillbotLocation.countryCode : "US";
+        const zipCode = body.postalCode ? body.postalCode : skillbotLocation ? skillbotLocation.postalCode : "98121";
         const url = 'http://api.wunderground.com/api/4a9c079f1cdb5b80/conditions/q/' + country + '/' + zipCode + '.json';
         const forecast = 'http://api.wunderground.com/api/4a9c079f1cdb5b80/forecast/q/' + country + '/' + zipCode + '.json';
         let userFactor;
