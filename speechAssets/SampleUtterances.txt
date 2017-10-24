@@ -4,6 +4,8 @@ frizzForecast Tell me my frizz forecast
 frizzForecast what will my hair do today
 frizzForecast will I have a good hair day
 frizzForecast how should I style my hair today
-frizzForecast shoud I wear my hair curly today
+frizzForecast should I wear my hair curly today
 frizzForecast should I straighten my hair today
 frizzForecast will my hair be frizzy today
+frizzForecast do something with my hair
+frizzForecast what is my hair forecast
