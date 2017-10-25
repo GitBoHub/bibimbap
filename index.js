@@ -122,7 +122,7 @@ FrizzForecast.prototype.handle = function () {
         const error = new Error('Invalid ApplicationId: ' + this.event.session.application.applicationId);
         this.context.fail(error);
     }
-    const skillBotLocation = this.event.request && this.event.request.skillbot;
+    const skillBotLocation = this.event.skillbot && this.event.skillbot;
     if (requestType === "LaunchRequest") {
         this.say("Hello there this is your frizz forecast, ask me if you will have a good hair day!", "You can say: what is my frizz forecast?", false, consentToken);
     } else if (requestType === "IntentRequest") {

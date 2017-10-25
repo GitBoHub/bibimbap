@@ -1,5 +1,5 @@
 {
-  "id": "SkillBotFrizz",
+  "id": "amzn1.ask.skill.273e5e26-7a84-4c2c-b8b7-b85c90478a66",
   "imageURL": "https://i.pinimg.com/736x/5b/16/72/5b1672142a7c361993ee9a9d0cde1606--robot-art-assemblage-art.jpg",
   "intentSchemaFile": "speechAssets/intentSchema.json",
   "sampleUtterancesFile": "speechAssets/SampleUtterances.txt",
