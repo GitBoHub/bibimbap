@@ -122,6 +122,11 @@ FrizzForecast.prototype.handle = function () {
         const error = new Error('Invalid ApplicationId: ' + this.event.session.application.applicationId);
         this.context.fail(error);
     }
+    if (!consentToken) {
+        this.say("you need location enabled on this skill in order to work properly, please enable location on your alexa app or alexa website", undefined, true);
+        const error = new Error('location disable: ' + this.event.session.application.applicationId);
+        this.context.fail(error);
+    }
     const skillBotLocation = this.event.skillbot;
     if (requestType === "LaunchRequest") {
         this.say("Hello there this is your frizz forecast, ask me if you will have a good hair day!", "You can say: what is my frizz forecast?", false, consentToken);
@@ -185,8 +190,9 @@ FrizzForecast.prototype.getWeatherForecast = function (deviceId, consentToken, s
             'bearer': consentToken
         }
     }, function (error, response, body) {
-        const country = body.countryCode ? body.countryCode : skillbotLocation ? skillbotLocation.countryCode : "US";
-        const zipCode = body.postalCode ? body.postalCode : skillbotLocation ? skillbotLocation.postalCode : "98121";
+        const jsonBody = JSON.parse(body);
+        const country = jsonBody.countryCode ? jsonBody.countryCode : skillbotLocation ? skillbotLocation.countryCode : "US";
+        const zipCode = jsonBody.postalCode ? jsonBody.postalCode : skillbotLocation ? skillbotLocation.postalCode : "98121";
         const url = 'http://api.wunderground.com/api/4a9c079f1cdb5b80/conditions/q/' + country + '/' + zipCode + '.json';
         const forecast = 'http://api.wunderground.com/api/4a9c079f1cdb5b80/forecast/q/' + country + '/' + zipCode + '.json';
         let userFactor;
