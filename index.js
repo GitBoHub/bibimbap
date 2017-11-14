@@ -8,7 +8,7 @@ var VoiceLabs = require("voicelabs")('fe8b6310-ad0c-11a7-193f-02f814b60257');
 
 const frizzFactorArray = [
     {
-        defaultResponse: "Dry, with a chance of flat hair,",
+        defaultResponse: "Very low, with a chance of flat hair,",
         response: [
             "Straight hair. Don’t care. Have a great hair day!",
             "<prosody pitch='high' volume='x-loud'>Hot dog! Go on, warm up that hair straightener.</prosody>",
@@ -17,7 +17,7 @@ const frizzFactorArray = [
             "One does not simply straighten their hair every day. Only on days like today.",
             "I don’t always have straight hair, but when I do I check with Frizz Forecast."
         ],
-        level: 50,
+        level: 30,
     },
     {
         defaultResponse: "Low, with a small chance of frizzle,",
@@ -29,7 +29,7 @@ const frizzFactorArray = [
             "<prosody rate='medium' pitch='x-high'>Now watch me snip. Watch me,</prosody><prosody rate='x-fast' pitch='x-high'>spray spray.</prosody>",
             "Wake up and smell the hairspray."
         ],
-        level: 54,
+        level: 35,
     },
     {
         defaultResponse: "Partly frizzy,",
@@ -42,7 +42,7 @@ const frizzFactorArray = [
             "I like to groom it groom it.",
             "I got 99 bobby pins, but I can't find one."
         ],
-        level: 59,
+        level: 39,
     },
     {
         defaultResponse: "Clear for curls,",
@@ -55,7 +55,7 @@ const frizzFactorArray = [
             "Big hair don’t care.<amazon:effect name='whispered'> I’m Alexa and I approve this message.</amazon:effect>",
             "Footloose and frizz free."
         ],
-        level: 64,
+        level: 60,
     },
     {
         defaultResponse: "Severe frizz warning,",
@@ -73,7 +73,7 @@ const frizzFactorArray = [
             "<say-as interpret-as='expletive'>shit</say-as>happens, and so does frizzy hair.",
             "Your heart will frizz on."
         ],
-        level: 65,
+        level: 61,
     }
 ];
 
